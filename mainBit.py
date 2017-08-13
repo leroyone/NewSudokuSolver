@@ -28,9 +28,13 @@ def setupSudoku(grid):
             a,b = moveForward(a,b)
             clear()
         elif x in ('123456789') and int(x) in range(1,10):
-            grid.insertNumber(a,b,x)
-            a,b = moveForward(a,b)
-            clear()
+            if checker(a,b,x,grid):
+                grid.insertNumber(a,b,x)
+                a,b = moveForward(a,b)
+                clear()
+            else:
+                clear()
+                input('Invalid input. Please try again.\n')
         elif x == 'b' or x == 'B':
             if a == 0 and b == 0:
                 clear()
@@ -48,9 +52,12 @@ def setupSudoku(grid):
             clear()
             input('Invalid input. Please try again.\n')
                 
-
-
-
+def checker(a,b,x,grid):
+    thisSquare,cordB = grid.squareConv(a,b)
+    if x not in grid.across[a] and x not in grid.down[b] and x not in grid.square[thisSquare]:
+        return True
+    else:
+        return False
 
 grid = Sudoku()
 setupSudoku(grid)
